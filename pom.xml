@@ -7,11 +7,17 @@
     <groupId>guru.z3</groupId>
     <artifactId>temple.toolkit</artifactId>
     <version>0.1</version>
-
-    <name>Base Lib.</name>
-    <description>z3 guru base library. Alias name is temple</description>
+    <name>temple.Toolkit</name>
+    <description>z3 guru base library. Alias name is temple.toolkit</description>
     <url>http://www.z3.guru</url>
-
+    <developers>
+        <developer>
+            <id>jaeda</id>
+            <name>SiNil Kim</name>
+            <email>zeze@z3.guru</email>
+            <url>http://www.z3.guru</url>
+        </developer>
+    </developers>
     <licenses>
         <license>
             <name>CC BY-ND 4.0</name>
