@@ -6,7 +6,7 @@
 
     <groupId>guru.z3</groupId>
     <artifactId>temple.toolkit</artifactId>
-    <version>0.1</version>
+    <version>0.1.1</version>
     <name>temple.Toolkit</name>
     <description>z3 guru base library. Alias name is temple.toolkit</description>
     <url>http://www.z3.guru</url>
@@ -95,7 +95,7 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -121,6 +121,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+            -->
         </plugins>
     </build>
 

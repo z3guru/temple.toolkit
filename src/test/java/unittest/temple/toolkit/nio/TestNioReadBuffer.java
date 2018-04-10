@@ -36,8 +36,8 @@ public class TestNioReadBuffer
 		this.rb = NioReadTool.link(source);
 		byte[] buf = new byte[100];
 
-		rb.get(buf);
-		rb.get(buf);
+		rb.get();
+		rb.get();
 		try { Thread.sleep(1000); } catch(InterruptedException e) { }
 		peer.stop(false);
 

@@ -33,6 +33,7 @@ public class NioReadTool
 
 	private NioReadTool()
 	{
+		this.timeout = 10000L;
 	}
 
 	public static NioReadTool link(ReadableByteChannel channel) throws Exception
@@ -111,6 +112,8 @@ public class NioReadTool
 		do
 		{
 			readMore(timeout);
+			if ( this.buf.remaining() >= count ) return;
+
 			ellapse = System.currentTimeMillis() - tm;
 
 		} while ( this.buf.remaining() < count && ellapse < timeout );
@@ -177,6 +180,7 @@ public class NioReadTool
 			}
 
 			// 통신오류이면...
+			if ( count == 0 ) throw new InterruptedByTimeoutException();
 			if ( count == -1 ) throw new IOException("Recv count == -1, channel is closed by peer");
 		}
 
@@ -201,6 +205,11 @@ public class NioReadTool
 			this.selector = null;
 			if ( logger.isTraceEnabled() ) logger.trace("NioReadTool closed");
 		}
+	}
+
+	public void wakeup()
+	{
+		this.selector.wakeup();
 	}
 
 	// GETTER/SETTER methods ///////////////////////////////

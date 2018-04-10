@@ -73,6 +73,7 @@ public class WorkerPool
 			throw e;
 		}
 	}
+
 	/**
 	 * 이름으로 {@link Worker}를 찾는다. 이름이 중복될 수 있으므로, 여러개가 찾아질 수 있다.
 	 * 

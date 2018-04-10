@@ -12,32 +12,63 @@ public class ByteBufferUtils
 	 */
 	public static String serialize(ByteBuffer buf)
 	{
+		return serialize(buf, null);
+	}
+
+	/**
+	 * 버퍼의 바이트 정보들을 16진수 문자열로 변환한다.
+	 * @param buf 대상 버퍼
+	 * @return 16진수 문자열
+	 */
+	public static String serialize(ByteBuffer buf, String delimiter)
+	{
 		ByteBuffer dbuf = buf.duplicate();
-		StringBuilder text = new StringBuilder(); 
+		StringBuilder text = new StringBuilder();
+
 		while(dbuf.hasRemaining())
 		{
 			byte b = dbuf.get();
-			text.append(encode((b >> 4) & 0x0F)); 
-			text.append(encode(b & 0x0F)); 
+			text.append(encode((b >> 4) & 0x0F));
+			text.append(encode(b & 0x0F));
+			if ( delimiter != null ) text.append(delimiter);
 		}
+
 		return text.toString();
 	}
-	
-    /**
-	 * 일련의 16진수 문자열을 해석해서 {@link ByteBuffer}로 변환
+
+
+	/**
+	 * parse hex string and convert that into {@link ByteBuffer} data
 	 */
-    public static ByteBuffer deserialize(String hex)
-    {
-    	String hh = hex.replaceAll("^[0-9a-fA-F]", "");
+	public static ByteBuffer deserialize(String hex)
+	{
+		String hh = hex.replaceAll("\\s+", "");
 		int length = hh.length() >> 1;
 		ByteBuffer buf = ByteBuffer.allocate(length);
-		for (int idx = 0; idx < length; idx++) 
+
+		int idx = 0;
+		for ( int i = 0; i < length; i++ )
 		{
-			buf.put((byte) Integer.parseInt(hh.substring(2 * idx, 2 * idx + 2), 16));
+			byte b = 0;
+			int  mask = 4;
+			do
+			{
+				int ch = hh.charAt(idx++);
+				if ( ch >= 'a' ) ch = ch - 'a' + 10;
+				else if ( ch >= 'A' ) ch = ch -'A' + 10;
+				else
+					ch -= '0';
+
+				b |= ch << mask;
+				mask -= 4;
+			} while ( mask >= 0 );
+
+			buf.put(b);
 		}
+
 		buf.flip();
 		return buf;
-    }
+	}
 	
 	/**
 	 * 0~15까지의 값을 16진수 문자로 변환
