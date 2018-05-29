@@ -25,7 +25,16 @@ public class Klass
 	{
 	}
 
-	public static List<String> classNames(ClassLoader loader, String pkg) throws IOException
+	/**
+	 *
+	 *
+	 * @param loader
+	 * @param pkg
+	 * @param isRecursive wether this contains sub packages or not
+	 * @return
+	 * @throws IOException
+	 */
+	public static List<String> classNames(ClassLoader loader, String pkg, boolean isRecursive) throws IOException
 	{
 		String[] pkgs = pkg.split(":");
 		List<String> list = new LinkedList();
@@ -38,34 +47,40 @@ public class Klass
 
 			if ( "file".equals(url.getProtocol()) )
 			{
-				instance.classNames(new File(url.getFile()), list);
+				instance.classNames(new File(url.getFile()), pp + '.', list, isRecursive);
 			}
 			else if ( "jar".equals(url.getProtocol()) )
 			{
-				instance.classNames((JarURLConnection)url.openConnection(), path, list);
+				instance.classNames((JarURLConnection)url.openConnection(), path, list, isRecursive);
 			}
 		}
 
 		return list;
 	}
 
-	private void classNames(JarURLConnection conn, String path, List<String> list) throws IOException
+	private void classNames(JarURLConnection conn, String path, List<String> list, boolean isRecursive) throws IOException
 	{
 		for ( Enumeration<JarEntry> e = conn.getJarFile().entries(); e.hasMoreElements(); )
 		{
 			JarEntry ee = e.nextElement();
 			String name = ee.getName();
-			int from = path.length();
+			int recurCheck = path.length();
 
-			if ( name.startsWith(path) && !ee.isDirectory() && name.endsWith(".class") )
+			if ( name.startsWith(path)
+					&& !ee.isDirectory()
+					&& name.endsWith(".class") )
 			{
 				String classPath = name.substring(0, name.length() - 6/* .class */);
-				list.add(classPath.replace('/', '.'));
+
+				if ( isRecursive || (classPath.lastIndexOf('/') == recurCheck))
+				{
+					list.add(classPath.replace('/', '.'));
+				}
 			}
 		}
 	}
 
-	private void classNames(File pkgDir, List<String> list)
+	private void classNames(File pkgDir, String prefix, List<String> list, boolean isRecursive)
 	{
 		for ( File f : pkgDir.listFiles() )
 		{
@@ -73,10 +88,10 @@ public class Klass
 
 			if ( name.endsWith(".class") && f.canRead() )
 			{
-				String classPath = name.substring(0, name.length() - 6/* .class */);
-				list.add(classPath.replace('/', '.'));
+				String className = name.substring(0, name.length() - 6/* .class */);
+				list.add(prefix + className);
 			}
-			else if ( f.isDirectory() ) classNames(f, list);
+			else if ( isRecursive && f.isDirectory() ) classNames(f, prefix + name + '.', list, isRecursive);
 		}
 	}
 }

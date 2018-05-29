@@ -3,6 +3,23 @@ This work is licensed under the Creative Commons Attribution-NoDerivatives 4.0 I
 */
 package unittest.temple.toolkit.reflect;
 
+import guru.z3.temple.toolkit.reflect.Klass;
+import org.junit.Test;
+
+import java.util.List;
+
 public class TestKlass
 {
+	@Test
+	public void testClassNames() throws Exception
+	{
+		ClassLoader loader = getClass().getClassLoader();
+		List<String> names = Klass.classNames(loader, "org.apache.logging.log4j.core", false);
+		//List<String> names = Klass.classNames(loader, "guru.z3.temple.toolkit", false);
+
+		for ( String n : names )
+		{
+			System.out.println(n);
+		}
+	}
 }
