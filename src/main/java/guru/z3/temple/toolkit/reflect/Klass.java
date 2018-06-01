@@ -3,12 +3,12 @@ This work is licensed under the Creative Commons Attribution-NoDerivatives 4.0 I
 */
 package guru.z3.temple.toolkit.reflect;
 
-import guru.z3.temple.toolkit.nio.NioReadTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
@@ -25,18 +25,73 @@ public class Klass
 	{
 	}
 
+	public static List<Class> findByAnnotation(Class<? extends Annotation> annotation, String pkgNames) throws IOException
+	{
+		return findByAnnotation(annotation, ClassLoader.getSystemClassLoader(), pkgNames, true);
+	}
+
+	public static List<Class> findByAnnotation(
+			Class<? extends Annotation> annotation
+			, ClassLoader loader
+			, String pkgNames
+			, boolean isRecursive) throws IOException
+	{
+		List<String> classNames = classNames(loader, pkgNames, isRecursive);
+		List<Class> classes = new LinkedList();
+
+		for ( String name : classNames )
+		{
+			try
+			{
+				Class klass = Class.forName(name);
+				//Object[] b1 = klass.getDeclaredAnnotations();
+				if ( klass.getAnnotation(annotation) != null ) classes.add(klass);
+			}
+			catch(ClassNotFoundException e)
+			{
+			}
+		}
+
+		return classes;
+	}
+
+	public static List<Class> findByFilter(ClassFilter filter, String pkgNames) throws IOException
+	{
+		return findByFilter(filter, ClassLoader.getSystemClassLoader(), pkgNames, true);
+	}
+
+	public static List<Class> findByFilter(ClassFilter filter, ClassLoader loader, String pkgNames, boolean isRecursive) throws IOException
+	{
+		List<String> classNames = classNames(loader, pkgNames, isRecursive);
+		List<Class> classes = new LinkedList();
+
+		for ( String name : classNames )
+		{
+			try
+			{
+				Class klass = Class.forName(name);
+				if ( filter.accept(klass) ) classes.add(klass);
+			}
+			catch(ClassNotFoundException e)
+			{
+			}
+		}
+
+		return classes;
+	}
+
 	/**
 	 *
 	 *
 	 * @param loader
-	 * @param pkg
+	 * @param pkgNames
 	 * @param isRecursive wether this contains sub packages or not
 	 * @return
 	 * @throws IOException
 	 */
-	public static List<String> classNames(ClassLoader loader, String pkg, boolean isRecursive) throws IOException
+	public static List<String> classNames(ClassLoader loader, String pkgNames, boolean isRecursive) throws IOException
 	{
-		String[] pkgs = pkg.split(":");
+		String[] pkgs = pkgNames.split(":");
 		List<String> list = new LinkedList();
 
 		for ( String pp : pkgs )
@@ -93,5 +148,11 @@ public class Klass
 			}
 			else if ( isRecursive && f.isDirectory() ) classNames(f, prefix + name + '.', list, isRecursive);
 		}
+	}
+
+	//
+	public interface ClassFilter
+	{
+		public boolean accept(Class klass);
 	}
 }
