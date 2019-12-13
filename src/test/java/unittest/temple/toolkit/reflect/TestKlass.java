@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @TestAnnotation
 @XmlRootElement
@@ -48,6 +50,64 @@ public class TestKlass
 
 		TestCase.assertTrue(classes.size() == 1);
 		TestCase.assertEquals(TestKlass.class.getName(), classes.get(0).getName());
+	}
+
+	@Test
+	public void testTemp() throws Exception
+	{
+		Pattern p = Pattern.compile("[\\{,]\"([\\w\\.]+)\":.+?\\\\\"V\\\\\":\\\\\"(.+?)\\\\\",");
+
+						   // {"TAG.TAG1":"{\"T\":\"NUMBER\",\"V\":\"123.32\",\"UT\":\"2018-10-10 20:21:22\"}" ..."
+		String  testStr1 = "{\"TAG.TAG1\":\"{\\\"T\\\":\\\"NUMBER\\\",\\\"V\\\":\\\"123.32\\\",\\\"UT\\\":\\\"2018-10-10 20:21:22\\\"\"}\""
+				         + ",\"TAG.TAG2\":\"{\\\"T\\\":\\\"NUMBER\\\",\\\"V\\\":\\\"123.32\\\",\\\"UT\\\":\\\"2018-10-10 20:21:22\\\"\"}\""
+						 + ",\"TAG.TAG3\":\"{\\\"T\\\":\\\"NUMBER\\\",\\\"V\\\":\\\"123.32\\\",\\\"UT\\\":\\\"2018-10-10 20:21:22\\\"\"}\"";
+
+		Matcher m = p.matcher(testStr1);
+		int pos = 0;
+		while ( m.find(pos) )
+		{
+			System.out.println(m.group() + "==>" + m.group(1) + ":" + m.group(2));
+			pos = m.end();
+		}
+	}
+
+
+	@Test
+	public void testTemp2() throws Exception
+	{
+		Pattern p = Pattern.compile("[\\{,]\"([\\w\\.]+)\":.+?\"V\":\"(.+?)\",");
+
+		// {"TAG.TAG1":{"T":"NUMBER","V":"123.32","UT":"2018-10-10 20:21:22"} ..."
+		String  testStr1 = "{\"TAG.TAG1\":{\"T\":\"NUMBER\",\"V\":\"123.32\",\"UT\":\"2018-10-10 20:21:22\"}"
+				+ ",\"TAG.TAG2\":{\"T\":\"NUMBER\",\"V\":\"123.32\",\"UT\":\"2018-10-10 20:21:22\""
+				+ ",\"TAG.TAG3\":{\"T\":\"NUMBER\",\"V\":\"123.32\",\"UT\":\"2018-10-10 20:21:22\"";
+
+		Matcher m = p.matcher(testStr1);
+		int pos = 0;
+		while ( m.find(pos) )
+		{
+			System.out.println(m.group() + "==>" + m.group(1) + ":" + m.group(2));
+			pos = m.end();
+		}
+	}
+
+	@Test
+	public void testTemp3() throws Exception
+	{
+		Pattern p = Pattern.compile("[\\{,]\"([\\w\\.]+)\":.+?\"V\":(\"?.+?\"?),");
+
+		// {"TAG.TAG1":{"T":"NUMBER","V":123.32,"UT":"2018-10-10 20:21:22"} ..."
+		String  testStr1 = "{\"TAG.TAG1\":{\"T\":\"NUMBER\",\"V\":123.32,\"UT\":\"2018-10-10 20:21:22\"}"
+				+ ",\"TAG.TAG2\":{\"T\":\"NUMBER\",\"V\":123.32,\"UT\":\"2018-10-10 20:21:22\""
+				+ ",\"TAG.TAG3\":{\"T\":\"NUMBER\",\"V\":\"123.32\",\"UT\":\"2018-10-10 20:21:22\"";
+
+		Matcher m = p.matcher(testStr1);
+		int pos = 0;
+		while ( m.find(pos) )
+		{
+			System.out.println(m.group() + "==>" + m.group(1) + ":" + m.group(2));
+			pos = m.end();
+		}
 	}
 
 }
