@@ -3,8 +3,8 @@ This work is licensed under the Creative Commons Attribution-NoDerivatives 4.0 I
 */
 package guru.z3.temple.toolkit.reflect;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.jar.JarEntry;
 public class Klass
 {
 	private final static Klass instance = new Klass();
-	private final Logger logger = LogManager.getContext().getLogger(Klass.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(Klass.class.getName());
 
 	private Klass()
 	{

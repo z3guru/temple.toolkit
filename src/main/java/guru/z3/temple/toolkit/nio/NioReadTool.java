@@ -1,8 +1,8 @@
 package guru.z3.temple.toolkit.nio;
 
 import guru.z3.temple.toolkit.concurrent.Worker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.BufferUnderflowException;
@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class NioReadTool
 {
-	private final Logger logger = LogManager.getContext().getLogger(NioReadTool.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(NioReadTool.class.getName());
 
 	/** 통신채널인데 {@link Selector}를 지원해야 한다 */
 	private ReadableByteChannel channel;

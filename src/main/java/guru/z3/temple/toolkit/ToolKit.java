@@ -1,8 +1,8 @@
 package guru.z3.temple.toolkit;
 
 import guru.z3.temple.toolkit.concurrent.WorkerPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class ToolKit
 {
 	private final static ToolKit instance = new ToolKit();
-	private final Logger logger = LogManager.getContext().getLogger(WorkerPool.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(WorkerPool.class.getName());
 
 	/** 기본으로 제공하는 {@link WorkerPool} */
 	private WorkerPool workerPool;

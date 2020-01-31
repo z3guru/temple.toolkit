@@ -1,7 +1,7 @@
 package guru.z3.temple.toolkit.concurrent;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class WorkerPool
 {
-	private final Logger logger = LogManager.getContext().getLogger(WorkerPool.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(WorkerPool.class.getName());
 	
 	/** {@link ThreadPoolExecutor} */
 	private ThreadPoolExecutor threadPool;
