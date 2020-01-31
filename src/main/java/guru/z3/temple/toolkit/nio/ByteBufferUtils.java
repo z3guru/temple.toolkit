@@ -143,4 +143,30 @@ public class ByteBufferUtils
 
 		return num;
 	}
+
+	/**
+	 * Put bytes of src to dest safely.
+	 * @param src
+	 * @param dest
+	 * @return A number of copied
+	 */
+	public static int copy(ByteBuffer src, ByteBuffer dest)
+	{
+		int capable = dest.remaining();
+		if ( capable == 0 ) return 0;
+
+		int pos = dest.position(); // for calculating count of copied
+		if ( capable < src.remaining() )
+		{
+			ByteBuffer sliced = src.slice();
+			sliced.limit(capable);
+			src.position(src.position() + capable);
+			// copy...
+			dest.put(sliced);
+		}
+		else
+			dest.put(src);
+
+		return dest.position() - pos;
+	}
 }
