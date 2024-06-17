@@ -1,6 +1,6 @@
 package unittest.temple.toolkit.nio;
 
-import guru.z3.temple.toolkit.nio.ByteBufferUtils;
+import guru.z3.temple.toolkit.io.ByteBufferUtils;
 import org.junit.Test;
 
 import java.nio.ByteBuffer;

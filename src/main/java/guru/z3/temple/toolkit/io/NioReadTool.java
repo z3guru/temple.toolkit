@@ -1,4 +1,4 @@
-package guru.z3.temple.toolkit.nio;
+package guru.z3.temple.toolkit.io;
 
 import guru.z3.temple.toolkit.concurrent.Worker;
 import org.apache.logging.log4j.LogManager;

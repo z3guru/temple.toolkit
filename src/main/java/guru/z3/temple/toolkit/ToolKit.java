@@ -4,10 +4,7 @@ import guru.z3.temple.toolkit.concurrent.WorkerPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  *
@@ -19,6 +16,8 @@ public class ToolKit
 
 	/** 기본으로 제공하는 {@link WorkerPool} */
 	private WorkerPool workerPool;
+
+	private ExecutorService defaultExecutorService;
 
 	private ToolKit()
 	{
@@ -42,6 +41,8 @@ public class ToolKit
 		BlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(queueSz);
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(coreSz, maxSz, keepAliveTime, TimeUnit.SECONDS, queue);
 		this.workerPool = new WorkerPool(tpe);
+
+		this.defaultExecutorService = Executors.newFixedThreadPool(10);
 	}
 
 	public static ToolKit getInstance()
@@ -53,4 +54,6 @@ public class ToolKit
 	{
 		return instance.workerPool;
 	}
+
+	public static ExecutorService defaultExecutorService() { return instance.defaultExecutorService; }
 }

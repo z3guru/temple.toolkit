@@ -6,7 +6,7 @@
 
     <groupId>guru.z3</groupId>
     <artifactId>temple.toolkit</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <name>Base Lib.</name>
     <description>z3 guru base library. Alias name is temple</description>
@@ -30,16 +30,24 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.8.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.owlike</groupId>
             <artifactId>genson</artifactId>
             <version>1.4</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.31</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

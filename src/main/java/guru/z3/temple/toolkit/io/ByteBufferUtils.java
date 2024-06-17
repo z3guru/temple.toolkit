@@ -1,4 +1,4 @@
-package guru.z3.temple.toolkit.nio;
+package guru.z3.temple.toolkit.io;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

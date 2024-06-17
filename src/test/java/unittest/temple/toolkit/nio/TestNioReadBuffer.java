@@ -3,7 +3,7 @@ package unittest.temple.toolkit.nio;
 import guru.z3.temple.toolkit.ToolKit;
 import guru.z3.temple.toolkit.concurrent.JobRunnable;
 import guru.z3.temple.toolkit.concurrent.Worker;
-import guru.z3.temple.toolkit.nio.NioReadTool;
+import guru.z3.temple.toolkit.io.NioReadTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
