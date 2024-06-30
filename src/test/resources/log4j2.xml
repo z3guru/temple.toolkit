@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <!-- Log4j2 설정에 사용되는 속성들을 정의합니다. -->
+    <Properties>
+        <Property name="LOG_DIR">logs</Property>
+        <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <!-- 로그를 출력할 대상을 정의합니다. -->
+    <Appenders>
+        <!-- 1. 콘솔에 로그를 출력하는 Appender -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+    </Appenders>
+
+    <!-- Logger를 정의합니다. -->
+    <Loggers>
+        <!-- 특정 패키지의 로그 레벨을 설정합니다. -->
+        <Logger name="guru.z3" level="DEBUG" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
+
+        <!-- 모든 로거의 기본 설정을 정의합니다. -->
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
