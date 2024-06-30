@@ -9,7 +9,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class EthernetModule implements Module
+public class EthernetModule //implements Module
 {
 	private ChannelFactory chFactory;
 	private Class<ChannelHandler> chHandlerKlass;
@@ -17,13 +17,13 @@ public class EthernetModule implements Module
 	final private AtomicReference<Worker> plumber = new AtomicReference<>();
 	final private AtomicBoolean connected = new AtomicBoolean(false);
 
-	@Override
+	//@Override
 	public void start() throws RuntimeException
 	{
 		this.plumber.set(ToolKit.defaultWorkerPool().execute(null, new ConnectionPlumber()));
 	}
 
-	@Override
+	//@Override
 	public void stop(boolean force) throws RuntimeException
 	{
 		if ( this.plumber.get() != null )
@@ -33,13 +33,13 @@ public class EthernetModule implements Module
 		}
 	}
 
-	@Override
+	//@Override
 	public State getState()
 	{
 		return null;
 	}
 
-	@Override
+	//@Override
 	public void ready(ModuleConfiguration conf) throws RuntimeException
 	{
 		// TODO check Type... & provides variants...

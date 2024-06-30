@@ -3,7 +3,7 @@ package guru.z3.temple.toolkit.io;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class ByteBufferUtils
+public class ByteBufferTool
 {
 	/**
 	 * 버퍼의 바이트 정보들을 16진수 문자열로 변환한다.
